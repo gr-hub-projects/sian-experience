@@ -1,81 +1,85 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>Sian Media Center</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-    <script src="/media-center/JS/main.js"></script>
+    
     <style>
-        .bodyCenter{
-            background-color: #bdb1a5;
-            padding-top: 5%;
-            padding-bottom: 5%;
-        }
+        [v-cloak] { display: none; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        body { background-color: #A89D91; }
     </style>
 </head>
-<body class="bodyCenter">
-    <div id="app" class="max-w-7xl mx-auto p-6 bg-transparent text-white">
-        <div class="flex items-center gap-4 mb-16 overflow-x-auto no-scrollbar">
-            <h2 class="text-3xl font-bold uppercase tracking-tighter italic">Discover</h2>
-            <div class="flex gap-3">
-            <button 
-                v-for="cat in categories" 
-                @click="activeCat = cat"
-                :class="activeCat === cat ? 'bg-white text-stone-900' : 'border border-white/40 text-white hover:bg-white/10'"
-                class="px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 whitespace-nowrap">
-                {{ cat }}
-            </button>
-            </div>
-        </div>
+<body>
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
-            <div class="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div v-for="post in filteredPosts" :key="post.id" 
-                class="bg-[#F2F2F2] rounded-[35px] p-7 text-stone-800 flex flex-col hover:shadow-2xl transition-all duration-500 group">
-                <h3 class="text-2xl font-bold leading-tight mb-2 group-hover:text-stone-600 transition-colors">{{ post.title }}</h3>
-                <p class="text-[10px] tracking-widest text-stone-400 mb-4 font-bold uppercase">{{ post.dateDisplay }} | {{ post.author }}</p>
-                
-                <div class="overflow-hidden rounded-2xl mb-5">
-                <img :src="post.image" class="w-full h-52 object-cover group-hover:scale-110 transition-transform duration-700">
-                </div>
-                
-                <p class="text-sm leading-relaxed text-stone-600 flex-grow">{{ post.excerpt }}</p>
-                
-                <div class="mt-8 flex justify-between items-center border-t border-stone-200 pt-5">
-                <a :href="post.url" class="font-bold italic text-lg hover:translate-x-1 transition-transform inline-block">Read more ></a>
-                <button class="text-stone-300 hover:text-stone-800 transition-colors">
-                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92c0-1.61-1.31-2.92-2.92-2.92z"/></svg>
-                </button>
-                </div>
-            </div>
-            </div>
-
-            <aside class="lg:col-span-4 pl-0 lg:pl-10">
-            <h2 class="text-5xl font-light mb-10 italic tracking-tighter">Date</h2>
-            
-            <div v-for="year in [2026, 2025]" :key="year" class="mb-12">
-                <h3 class="text-2xl font-bold border-b border-white/20 pb-3 mb-6 opacity-90">{{ year }}</h3>
-                <div class="grid grid-cols-2 gap-y-4">
-                <div v-for="(month, index) in months" :key="month" class="flex items-center">
-                    <label class="relative flex items-center cursor-pointer group">
-                    <input type="radio" name="date-filter" 
-                            @click="setFilter(year, index)"
-                            class="peer appearance-none h-5 w-5 border border-white/40 rounded-full checked:bg-white checked:border-transparent transition-all">
-                    <span class="ml-3 text-sm font-medium text-white/50 peer-checked:text-white group-hover:text-white transition-colors">
-                        {{ month }}
-                    </span>
-                    </label>
-                </div>
-                </div>
-            </div>
-            
-            <button @click="resetFilters" class="text-xs uppercase tracking-[0.2em] border-b border-white/50 pb-1 hover:border-white transition-all opacity-60 hover:opacity-100">
-                Reset filters
-            </button>
-            </aside>
-        </div>
+<div id="app" v-cloak class="max-w-7xl mx-auto p-6 text-white font-sans">
+  
+  <div class="flex flex-col md:flex-row items-center gap-6 mb-16">
+    <h2 class="text-3xl font-bold uppercase italic tracking-tighter">Discover</h2>
+    <div class="flex gap-3 overflow-x-auto no-scrollbar pb-2">
+      <button 
+        v-for="cat in categories" :key="cat"
+        @click="activeCat = cat"
+        :class="activeCat === cat ? 'bg-white text-stone-900' : 'border border-white/40 text-white hover:bg-white/10'"
+        class="px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 whitespace-nowrap">
+        {{ cat }}
+      </button>
     </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+    <div class="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div v-for="post in filteredPosts" :key="post.id" 
+           class="bg-[#F2F2F2] rounded-[35px] p-7 text-stone-800 flex flex-col hover:shadow-2xl transition-all duration-500 group">
+        <h3 class="text-2xl font-bold leading-tight mb-2 group-hover:text-stone-600 transition-colors">{{ post.title }}</h3>
+        <p class="text-[10px] tracking-widest text-stone-400 mb-4 font-bold uppercase">{{ post.dateDisplay }} | {{ post.author }}</p>
+        
+        <div class="overflow-hidden rounded-2xl mb-5 aspect-video">
+           <img :src="post.image" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+        </div>
+        
+        <p class="text-sm leading-relaxed text-stone-600 flex-grow">{{ post.excerpt }}</p>
+        
+        <div class="mt-8 flex justify-between items-center border-t border-stone-200 pt-5">
+          <a :href="post.url" class="font-bold italic text-lg hover:translate-x-1 transition-transform inline-block">Read more ></a>
+          <button class="text-stone-300 hover:text-stone-800 transition-colors">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92c0-1.61-1.31-2.92-2.92-2.92z"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <aside class="lg:col-span-4 lg:pl-10">
+      <h2 class="text-5xl font-light mb-10 italic tracking-tighter">Date</h2>
+      
+      <div v-for="year in [2026, 2025]" :key="year" class="mb-12">
+        <h3 class="text-2xl font-bold border-b border-white/20 pb-3 mb-6 opacity-90">{{ year }}</h3>
+        <div class="grid grid-cols-2 gap-y-4">
+          <div v-for="(month, index) in months" :key="month">
+            <label class="flex items-center cursor-pointer group">
+              <input type="radio" name="date-filter" 
+                     @click="setFilter(year, index)"
+                     class="peer appearance-none h-5 w-5 border border-white/40 rounded-full checked:bg-white checked:border-transparent transition-all">
+              <span class="ml-3 text-sm font-medium text-white/50 peer-checked:text-white group-hover:text-white transition-colors">
+                {{ month }}
+              </span>
+            </label>
+          </div>
+        </div>
+      </div>
+      
+      <button @click="resetFilters" class="text-xs uppercase tracking-[0.2em] border-b border-white/50 pb-1 hover:border-white opacity-60 hover:opacity-100 transition-all">
+        Reset filters
+      </button>
+    </aside>
+  </div>
+</div>
+
+<script src="../JS/main.js"></script>
+
 </body>
 </html>
