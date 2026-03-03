@@ -55,18 +55,29 @@ createApp({
   computed: {
     filteredPosts() {
       return this.posts.filter(post => {
+        // Creamos la fecha asegurando el formato YYYY-MM-DD
         const d = new Date(post.date + "T00:00:00");
+        const postYear = d.getFullYear();
+        const postMonth = d.getMonth();
+
+        // 1. Filtro de Categoría
         const matchCat = this.activeCat === 'See all' || post.category === this.activeCat;
-        const matchYear = this.selectedYear ? d.getFullYear() === this.selectedYear : true;
-        const matchMonth = this.selectedMonth !== null ? d.getMonth() === this.selectedMonth : true;
+        
+        // 2. Filtro de Año (Convertimos ambos a número para estar seguros)
+        const matchYear = this.selectedYear ? postYear === parseInt(this.selectedYear) : true;
+        
+        // 3. Filtro de Mes
+        const matchMonth = this.selectedMonth !== null ? postMonth === parseInt(this.selectedMonth) : true;
+
         return matchCat && matchYear && matchMonth;
       });
     }
   },
   methods: {
     setFilter(year, monthIndex) {
-      this.selectedYear = year;
-      this.selectedMonth = monthIndex;
+      // Forzamos que se guarden como números
+      this.selectedYear = parseInt(year);
+      this.selectedMonth = parseInt(monthIndex);
     },
     resetFilters() {
       this.selectedYear = null;
